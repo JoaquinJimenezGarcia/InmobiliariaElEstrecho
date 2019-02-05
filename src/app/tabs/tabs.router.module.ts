@@ -36,6 +36,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'todos',
+        children: [
+          {
+            path: '',
+            loadChildren: '../todos/todos.module#TodosPageModule'
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'

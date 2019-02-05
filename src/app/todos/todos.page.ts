@@ -2,58 +2,40 @@ import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { Property } from '../models/property';
 import { map } from 'rxjs/operators';
+import { strict } from 'assert';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-todos',
+  templateUrl: './todos.page.html',
+  styleUrls: ['./todos.page.scss'],
 })
-
-export class Tab1Page implements OnInit{
-  public busquedaRealizada: boolean = false;
+export class TodosPage implements OnInit {
   private url: string = "http://inmobiliariaelestrecho.com/wp-json/wp/v2/property?per_page=100";
   public properties: Property[];
-  public termino: string;
-  
-  constructor(private http: Http) {
+  public favoritos: string[];
+
+  constructor(private http: Http) { 
+    this.traerPisos();
   }
 
-  ngOnInit(): void {
-    if(this.busquedaRealizada) {
-      this.traerPisos();
-    }
-  }
-
-  public volver() {
-    this.busquedaRealizada = false;
-    this.ngOnInit();
-  }
-
-  public propertiesByRegion(termino: string) {
-    var propertiesByRegion = [];
-    
-    for (let i = 0; i < this.properties.length; i++) {
-      if (this.properties[i].regionStr === termino) {
-        propertiesByRegion.push(this.properties[i]);
-      }      
-    }
-
-    return propertiesByRegion;
+  ngOnInit() {
   }
 
   public traerPisos() {
-    this.http.get(this.url).pipe(map(res => res.json())).subscribe(data => {
-      this.properties = data;
-      
-      for (let i = 0; i < this.properties.length; i++) {
-        this.properties[i].regionStr = this.getRegion(this.properties[i].region[0]);
-        this.properties[i].propertyFeatureStr = [];
+    //for (let i = 1; i <= 12; i++) {
+      this.http.get(this.url).pipe(map(res => res.json())).subscribe(data => {
+        this.properties = data;
+        
+        for (let i = 0; i < this.properties.length; i++) {
+          this.properties[i].regionStr = this.getRegion(this.properties[i].region[0]);
+          this.properties[i].propertyFeatureStr = [];
 
-        for (let j in this.properties[i].property_feature) {
-          this.properties[i].propertyFeatureStr.push(this.getFeatures(this.properties[i].property_feature[j]));
+          for (let j in this.properties[i].property_feature) {
+            this.properties[i].propertyFeatureStr.push(this.getFeatures(this.properties[i].property_feature[j]));
+          }
         }
-      }
-    });
+      });
+    //}
   }
 
   public getRegion(regionId: number): string {
@@ -145,12 +127,6 @@ export class Tab1Page implements OnInit{
     }
   }
 
-  public buscar() {
-    console.log(this.termino);
-    this.busquedaRealizada = true;
-    this.ngOnInit();
-  }
-
   public getItems(ev: any) {
     const val = ev.target.value;
 
@@ -165,6 +141,19 @@ export class Tab1Page implements OnInit{
     }
   }
 
+  public meGusta(id: number) {
+    if(localStorage.getItem('favoritos') == null || localStorage.getItem('favoritos') == 'undefined') {
+      localStorage.setItem('favoritos', JSON.stringify(this.favoritos));
+    } else {
+      for (let i = 0; i < localStorage.getItem('favoritos').length; i++) {
+        this.favoritos[i] = localStorage.getItem('favoritos')[i];
+      }
 
+      this.favoritos.push(id.toString());
+      localStorage.setItem('favoritos', JSON.stringify(this.favoritos));
+    }
+
+    console.log(localStorage.getItem('favoritos'));
+  }
 
 }

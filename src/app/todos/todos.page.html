@@ -1,27 +1,15 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>
-      El Estrecho - Búsqueda
+      El Estrecho - Viviendas disponibles
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="!this.busquedaRealizada">
-  <img class="logo" src="assets/icono.png">
-
-  <ion-item>
-    <ion-input id="termino" type="text" class="validate" [(ngModel)]="termino" name="text" placeholder="Buscar por zona"></ion-input>
-    <ion-button (click)="buscar()" color="secondary">Buscar</ion-button>
-  </ion-item>
-
-  <img src="assets/fondo.jpg">
-</ion-content>
-
-<ion-content *ngIf="this.busquedaRealizada">
+<ion-content padding>
   <ion-searchbar (ionInput)="getItems($event)" placeholder="Buscar por nombre"></ion-searchbar>
-  <ion-button (click)="volver()" color="secondary">Volver</ion-button>
   <ion-list lines="none">
-    <ion-item *ngFor="let property of propertiesByRegion(this.termino)">
+    <ion-item *ngFor="let property of properties">
       <ion-card>
         <img src="{{property.link}}" />
         <ion-card-content>
