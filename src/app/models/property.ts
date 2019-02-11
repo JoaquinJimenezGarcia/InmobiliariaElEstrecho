@@ -26,8 +26,9 @@ export class Property {
         public property_feature: number[],
         public propertyFeatureStr: string[],
         public region: number[],
-        public regionStr: string,
+        public regionStr: string[],
         public _links: LinksContent,
-        public urlFoto: string
+        public urlFoto: string,
+        public foto: string
     ){}
 }

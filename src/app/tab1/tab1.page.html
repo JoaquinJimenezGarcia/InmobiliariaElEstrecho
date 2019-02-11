@@ -6,24 +6,27 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="!this.busquedaRealizada">
-  <img class="logo" src="assets/icono.png">
-
-  <ion-item>
-    <ion-input id="termino" type="text" class="validate" [(ngModel)]="termino" name="text" placeholder="Buscar por zona"></ion-input>
-    <ion-button (click)="buscar()" color="secondary">Buscar</ion-button>
-  </ion-item>
-
+<ion-content *ngIf="!this.busquedaRealizada" color="medium">
   <img src="assets/fondo.jpg">
+
+  <div class="banner"></div>
+
+  <ion-item class="busqueda">
+    <ion-label>Zona</ion-label>
+    <ion-select value="Inserte zona" id="termino" [(ngModel)]="termino" okText="Seleccionar" cancelText="Cancelar">
+      <ion-select-option id="termino" [(ngModel)]="termino" *ngFor="let region of this.regiones" value="{{region.name}}">{{region.name}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-button (click)="buscar()" color="secondary">Buscar</ion-button>
 </ion-content>
 
-<ion-content *ngIf="this.busquedaRealizada">
+<ion-content *ngIf="this.busquedaRealizada" >
   <ion-searchbar (ionInput)="getItems($event)" placeholder="Buscar por nombre"></ion-searchbar>
   <ion-button (click)="volver()" color="secondary">Volver</ion-button>
   <ion-list lines="none">
-    <ion-item *ngFor="let property of propertiesByRegion(this.termino)">
+    <ion-item *ngFor="let property of propertiesByRegion(this.termino)" >
       <ion-card>
-        <img src="{{property.link}}" />
+        <img src="{{property.foto}}" />
         <ion-card-content>
           <ion-card-title>
             {{property.title.rendered}}
@@ -41,17 +44,17 @@
             <ion-button href="{{property.link}}">
               Ver ficha completa
             </ion-button>
-            <ion-button (click)="meGusta(property.id)">
+            <!--<ion-button (click)="meGusta(property.id)">
               ¡Me gusta!
               <ion-icon slot="end" color="danger" name="heart"></ion-icon>
-            </ion-button>
+            </ion-button>-->
           </ion-col>
         </ion-row>
       </ion-card>
     </ion-item>
-    <ion-item *ngIf="properties.length === 0">
+    <ion-item *ngIf="propertiesByRegion(this.termino).length === 0" color="medium">
       <ion-list-header>
-        <ion-label>Sin pisos registrados</ion-label>
+        <ion-label>Sin pisos disponibles para esta zona</ion-label>
       </ion-list-header>
     </ion-item>
 

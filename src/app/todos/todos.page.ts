@@ -11,11 +11,13 @@ import { strict } from 'assert';
 })
 export class TodosPage implements OnInit {
   private url: string = "http://inmobiliariaelestrecho.com/wp-json/wp/v2/property?per_page=100";
+  private urlFoto: string = 'http://inmobiliariaelestrecho.com/wp-json/wp/v2/media/';
   public properties: Property[];
-  public favoritos: string[];
+  public favoritos: any;
 
   constructor(private http: Http) { 
     this.traerPisos();
+    this.favoritos = localStorage.getItem('favoritos');
   }
 
   ngOnInit() {
@@ -27,7 +29,11 @@ export class TodosPage implements OnInit {
         this.properties = data;
         
         for (let i = 0; i < this.properties.length; i++) {
-          this.properties[i].regionStr = this.getRegion(this.properties[i].region[0]);
+          this.http.get(this.urlFoto + this.properties[i].featured_media).pipe(map(res => res.json())).subscribe(datosInternos => {
+            this.properties[i].foto = datosInternos.guid.rendered;
+          });
+
+          //this.properties[i].regionStr = this.getRegion(this.properties[i].region[0]);
           this.properties[i].propertyFeatureStr = [];
 
           for (let j in this.properties[i].property_feature) {
@@ -143,8 +149,11 @@ export class TodosPage implements OnInit {
 
   public meGusta(id: number) {
     if(localStorage.getItem('favoritos') == null || localStorage.getItem('favoritos') == 'undefined') {
+      console.log('No existe');
       localStorage.setItem('favoritos', JSON.stringify(this.favoritos));
     } else {
+      console.log('Existe');
+      console.log(this.favoritos);
       for (let i = 0; i < localStorage.getItem('favoritos').length; i++) {
         this.favoritos[i] = localStorage.getItem('favoritos')[i];
       }
@@ -152,6 +161,9 @@ export class TodosPage implements OnInit {
       this.favoritos.push(id.toString());
       localStorage.setItem('favoritos', JSON.stringify(this.favoritos));
     }
+
+    this.favoritos.push(id.toString());
+      localStorage.setItem('favoritos', JSON.stringify(this.favoritos));
 
     console.log(localStorage.getItem('favoritos'));
   }

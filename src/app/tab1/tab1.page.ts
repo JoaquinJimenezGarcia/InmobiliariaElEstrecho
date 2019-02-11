@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { Property } from '../models/property';
 import { map } from 'rxjs/operators';
+import { Region } from '../models/region';
 
 @Component({
   selector: 'app-tab1',
@@ -11,11 +12,14 @@ import { map } from 'rxjs/operators';
 
 export class Tab1Page implements OnInit{
   public busquedaRealizada: boolean = false;
-  private url: string = "http://inmobiliariaelestrecho.com/wp-json/wp/v2/property?per_page=100";
+  private url: string = 'http://inmobiliariaelestrecho.com/wp-json/wp/v2/';
+  private urlFoto: string = 'http://inmobiliariaelestrecho.com/wp-json/wp/v2/media/';
   public properties: Property[];
+  public regiones: Region[];
   public termino: string;
   
   constructor(private http: Http) {
+    this.traerRegiones();
   }
 
   ngOnInit(): void {
@@ -33,8 +37,10 @@ export class Tab1Page implements OnInit{
     var propertiesByRegion = [];
     
     for (let i = 0; i < this.properties.length; i++) {
-      if (this.properties[i].regionStr === termino) {
-        propertiesByRegion.push(this.properties[i]);
+      for (let j in this.properties[i].region) {
+        if (this.properties[i].regionStr[j] === termino) {
+          propertiesByRegion.push(this.properties[i]);
+        }
       }      
     }
 
@@ -42,17 +48,32 @@ export class Tab1Page implements OnInit{
   }
 
   public traerPisos() {
-    this.http.get(this.url).pipe(map(res => res.json())).subscribe(data => {
+    this.http.get(this.url + 'property?per_page=100').pipe(map(res => res.json())).subscribe(data => {
       this.properties = data;
       
       for (let i = 0; i < this.properties.length; i++) {
-        this.properties[i].regionStr = this.getRegion(this.properties[i].region[0]);
+        this.http.get(this.urlFoto + this.properties[i].featured_media).pipe(map(res => res.json())).subscribe(datosInternos => {
+          this.properties[i].foto = datosInternos.guid.rendered;
+        });
+
+        this.properties[i].regionStr = [];
+
+        for (let j in this.properties[i].region) {
+          this.properties[i].regionStr.push(this.getRegion(this.properties[i].region[j]));
+        }
+
         this.properties[i].propertyFeatureStr = [];
 
         for (let j in this.properties[i].property_feature) {
           this.properties[i].propertyFeatureStr.push(this.getFeatures(this.properties[i].property_feature[j]));
         }
       }
+    });
+  }
+
+  public traerRegiones() {
+    this.http.get(this.url + 'region?per_page=100').pipe(map(res => res.json())).subscribe(data => {
+      this.regiones = data;
     });
   }
 

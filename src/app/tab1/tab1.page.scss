@@ -1,12 +1,11 @@
-.welcome-card ion-img {
-  max-height: 35vh;
-  overflow: hidden;
+
+ion-button{
+  align-content: center;
+  margin-left: 10%;
 }
 
-.getstart { 
-  background-image: url('../../assets/fondo.jpg') !important; 
-}
-
-img.logo{
-  margin: 20px;
+ion-item.busqueda {
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
