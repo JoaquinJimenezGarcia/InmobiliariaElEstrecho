@@ -58,6 +58,33 @@ export class Tab1Page implements OnInit{
 
         this.properties[i].regionStr = [];
 
+        if(this.properties[i].content.rendered.indexOf('€') != -1){
+          var valor1 = this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 1];
+          var valor2 = this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 2];
+          var valor3 = this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 3];
+          var valor4 = this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 4];
+          var valor5 = this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 5];
+          var valor6 = this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 6];
+          
+          if(this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 7] != '>') {
+            var valor7 = this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 7];
+          }
+
+          var valorEntero = valor7 + valor6 + valor5 + valor4 + valor3 + valor2 + valor1;
+
+          var valorFormat = valorEntero.replace('.', '');
+          valorFormat = valorFormat.replace('undefined', '');
+          valorFormat = valorFormat.replace(' ', '');
+          valorFormat = valorFormat.replace(' ', '');
+          valorFormat = valorFormat.replace(' ', '');
+          valorFormat = valorFormat.replace(' ', '');
+          valorFormat = valorFormat.replace(' ', '');
+          
+          console.log(valorFormat);
+
+          this.properties[i].precio = parseInt(valorFormat);
+        }
+
         for (let j in this.properties[i].region) {
           this.properties[i].regionStr.push(this.getRegion(this.properties[i].region[j]));
         }

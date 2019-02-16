@@ -29,6 +29,7 @@ export class Property {
         public regionStr: string[],
         public _links: LinksContent,
         public urlFoto: string,
-        public foto: string
+        public foto: string,
+        public precio: number
     ){}
 }
