@@ -17,6 +17,8 @@ export class Tab1Page implements OnInit{
   public properties: Property[];
   public regiones: Region[];
   public termino: string;
+  public precio_minimo: string;
+  public precio_maximo: string;
   
   constructor(private http: Http) {
     this.traerRegiones();
@@ -34,12 +36,28 @@ export class Tab1Page implements OnInit{
   }
 
   public propertiesByRegion(termino: string) {
+    var maximo;
+    var minimo;
     var propertiesByRegion = [];
+    
+    if(this.precio_maximo != 'undefined') {
+      maximo = parseInt(this.precio_maximo);
+    } else {
+      maximo = 100000000;
+    }
+
+    if (this.precio_minimo != 'undefined') {
+      minimo = parseInt(this.precio_minimo);
+    } else {
+      minimo = 0;
+    }
     
     for (let i = 0; i < this.properties.length; i++) {
       for (let j in this.properties[i].region) {
         if (this.properties[i].regionStr[j] === termino) {
-          propertiesByRegion.push(this.properties[i]);
+          if(this.properties[i].precio > minimo && this.properties[i].precio < maximo){
+            propertiesByRegion.push(this.properties[i]);
+          }
         }
       }      
     }
