@@ -56,7 +56,7 @@
       </ion-select>
     </ion-item>
   
-    <ion-button (click)="buscar()" color="secondary">Buscar</ion-button>
+    <ion-button (click)="buscar()" color="medium">Buscar</ion-button>
   </div>
   <!---->
 </ion-content>
@@ -65,7 +65,7 @@
   <ion-searchbar (ionInput)="getItems($event)" placeholder="Buscar por nombre"></ion-searchbar>
   <ion-button (click)="volver()" color="secondary">Volver</ion-button>
   <ion-list lines="none">
-    <ion-item *ngFor="let property of propertiesByRegion(this.termino)" >
+    <ion-item *ngFor="let property of this.properties" >
       <ion-card>
         <img src="{{property.foto}}" />
         <ion-card-content>
@@ -97,7 +97,7 @@
         </ion-row>
       </ion-card>
     </ion-item>
-    <ion-item *ngIf="propertiesByRegion(this.termino).length === 0" color="medium">
+    <ion-item *ngIf="propertiesByRegion(this.termino, properties).length === 0" color="medium">
       <ion-list-header>
         <ion-label>Sin pisos disponibles para esta zona</ion-label>
       </ion-list-header>

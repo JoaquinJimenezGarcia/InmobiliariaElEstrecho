@@ -16,9 +16,9 @@ export class Tab1Page implements OnInit{
   private urlFoto: string = 'http://inmobiliariaelestrecho.com/wp-json/wp/v2/media/';
   public properties: Property[];
   public regiones: Region[];
-  public termino: string;
-  public precio_minimo: string;
-  public precio_maximo: string;
+  public termino: string = '';
+  public precio_minimo: number = 0;
+  public precio_maximo: number = 0;
   
   constructor(private http: Http) {
     this.traerRegiones();
@@ -40,14 +40,14 @@ export class Tab1Page implements OnInit{
     var minimo;
     var propertiesByRegion = [];
     
-    if(this.precio_maximo != 'undefined') {
-      maximo = parseInt(this.precio_maximo);
+    if(this.precio_maximo != undefined) {
+      maximo = this.precio_maximo;
     } else {
       maximo = 100000000;
     }
 
-    if (this.precio_minimo != 'undefined') {
-      minimo = parseInt(this.precio_minimo);
+    if (this.precio_minimo != undefined) {
+      minimo = this.precio_minimo;
     } else {
       minimo = 0;
     }
@@ -66,9 +66,33 @@ export class Tab1Page implements OnInit{
   }
 
   public traerPisos() {
+    let properties;
+    console.log('Precio mínimo: ');
+    console.log(this.precio_minimo);
+    console.log('Precio máximo: ');
+    console.log(this.precio_maximo);
+
     this.http.get(this.url + 'property?per_page=100').pipe(map(res => res.json())).subscribe(data => {
-      this.properties = data;
-      
+      properties = data;
+
+      for (let i = 0; i < properties.length; i++) {
+        if (this.precio_maximo <= 0 || this.precio_maximo === undefined) {
+          this.precio_maximo = 10000000000;
+        } else if (this.precio_minimo <= 0 || this.precio_minimo === undefined) {
+          this.precio_minimo = 0;
+        }
+
+        if ((properties[i].precio > this.precio_minimo) && (properties[i].precio < this.precio_maximo)){
+
+        } else {
+          console.log('entra aquí');
+          properties.splice(i, 1);
+        }
+      }
+
+      console.log(properties);
+      this.properties = properties;
+
       for (let i = 0; i < this.properties.length; i++) {
         this.http.get(this.urlFoto + this.properties[i].featured_media).pipe(map(res => res.json())).subscribe(datosInternos => {
           this.properties[i].foto = datosInternos.guid.rendered;
@@ -97,8 +121,6 @@ export class Tab1Page implements OnInit{
           valorFormat = valorFormat.replace(' ', '');
           valorFormat = valorFormat.replace(' ', '');
           valorFormat = valorFormat.replace(' ', '');
-          
-          console.log(valorFormat);
 
           this.properties[i].precio = parseInt(valorFormat);
         }
@@ -212,7 +234,6 @@ export class Tab1Page implements OnInit{
   }
 
   public buscar() {
-    console.log(this.termino);
     this.busquedaRealizada = true;
     this.ngOnInit();
   }
