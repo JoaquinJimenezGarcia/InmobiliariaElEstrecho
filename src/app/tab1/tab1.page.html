@@ -61,7 +61,7 @@
   <!---->
 </ion-content>
 
-<ion-content class="fondo" *ngIf="this.busquedaRealizada" >
+<ion-content class="fondo" *ngIf="this.busquedaRealizada && !this.detalles" >
   <ion-searchbar (ionInput)="getItems($event)" placeholder="Buscar por nombre"></ion-searchbar>
   <ion-button (click)="volver()" color="secondary">Volver</ion-button>
   <ion-list lines="none">
@@ -77,7 +77,7 @@
           </ul>
           <br>
           <h2 style="color: green">
-            {{ property.precio }} €
+            {{ property.precio_propiedad }} €
           </h2>
           <br>
           <i>
@@ -86,13 +86,9 @@
         </ion-card-content>
         <ion-row>
           <ion-col>
-            <ion-button href="{{property.link}}">
+            <ion-button (click)="verDetalles(property)">
               Ver ficha completa
             </ion-button>
-            <!--<ion-button (click)="meGusta(property.id)">
-              ¡Me gusta!
-              <ion-icon slot="end" color="danger" name="heart"></ion-icon>
-            </ion-button>-->
           </ion-col>
         </ion-row>
       </ion-card>
@@ -104,4 +100,18 @@
     </ion-item>
 
   </ion-list>
+</ion-content>
+
+<ion-content class="fondo" *ngIf="this.detalles">
+  <ion-button (click)="volverABusqueda()" color="secondary">Volver</ion-button>
+  <img src="{{pisoSeleccionado.foto}}" alt="">
+  
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{pisoSeleccionado.title.rendered}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div [innerHTML]="pisoSeleccionado.content.rendered"></div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

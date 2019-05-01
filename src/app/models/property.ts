@@ -30,6 +30,8 @@ export class Property {
         public _links: LinksContent,
         public urlFoto: string,
         public foto: string,
-        public precio: number
+        public fotos: string[],
+        public precio_propiedad: string,
+        public definicion: string
     ){}
 }

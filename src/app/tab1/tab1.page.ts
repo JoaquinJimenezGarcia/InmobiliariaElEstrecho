@@ -13,56 +13,54 @@ import { Region } from '../models/region';
 export class Tab1Page implements OnInit{
   public busquedaRealizada: boolean = false;
   private url: string = 'http://inmobiliariaelestrecho.com/wp-json/wp/v2/';
-  private urlFoto: string = 'http://inmobiliariaelestrecho.com/wp-json/wp/v2/media/';
   public properties: Property[];
   public regiones: Region[];
   public termino: string = '';
   public precio_minimo: number = 0;
   public precio_maximo: number = 0;
-  
+  public detalles: boolean = false;
+  public pisoSeleccionado: Property = null;
+
   constructor(private http: Http) {
     this.traerRegiones();
   }
 
   ngOnInit(): void {
-    if(this.busquedaRealizada) {
+    if (this.busquedaRealizada) {
       this.traerPisos();
     }
   }
 
   public volver() {
     this.busquedaRealizada = false;
+
     this.ngOnInit();
   }
 
-  public propertiesByRegion(termino: string) {
-    var maximo;
-    var minimo;
-    var propertiesByRegion = [];
-    
-    if(this.precio_maximo != undefined) {
-      maximo = this.precio_maximo;
-    } else {
-      maximo = 100000000;
-    }
+  public volverABusqueda() {
+    this.detalles = false;
+    this.pisoSeleccionado = null;
+  }
 
-    if (this.precio_minimo != undefined) {
-      minimo = this.precio_minimo;
-    } else {
-      minimo = 0;
-    }
-    
+  public propertiesByRegion(termino: string) {
+    let propertiesByRegion = [];
+
     for (let i = 0; i < this.properties.length; i++) {
       for (let j in this.properties[i].region) {
         if (this.properties[i].regionStr[j] === termino) {
-          if(this.properties[i].precio > minimo && this.properties[i].precio < maximo){
             propertiesByRegion.push(this.properties[i]);
-          }
         }
-      }      
+      }
     }
 
     return propertiesByRegion;
+  }
+
+  public verDetalles(property: Property) {
+    this.detalles = true;
+    this.pisoSeleccionado = property;
+
+    console.log(this.pisoSeleccionado);
   }
 
   public traerPisos() {
@@ -85,53 +83,34 @@ export class Tab1Page implements OnInit{
         if ((properties[i].precio > this.precio_minimo) && (properties[i].precio < this.precio_maximo)){
 
         } else {
-          console.log('entra aquí');
           properties.splice(i, 1);
         }
       }
 
-      console.log(properties);
       this.properties = properties;
 
       for (let i = 0; i < this.properties.length; i++) {
-        this.http.get(this.urlFoto + this.properties[i].featured_media).pipe(map(res => res.json())).subscribe(datosInternos => {
-          this.properties[i].foto = datosInternos.guid.rendered;
-        });
+        const fotos = Object.values(properties[i].imagenes_galeria);
+        this.properties[i].definicion = this.properties[i].content.rendered.replace(/<[^>]*>/g, '');
+        
+        //this.properties[i].fotos = Array(fotos);
 
+        /*for (let j = 0; j < fotos.length; j++) {
+          this.properties[i].fotos[j] = String(fotos[j]);
+        }*/
+
+        this.properties[i].foto = String(fotos[0]);
         this.properties[i].regionStr = [];
 
-        if(this.properties[i].content.rendered.indexOf('€') != -1){
-          var valor1 = this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 1];
-          var valor2 = this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 2];
-          var valor3 = this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 3];
-          var valor4 = this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 4];
-          var valor5 = this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 5];
-          var valor6 = this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 6];
-          
-          if(this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 7] != '>') {
-            var valor7 = this.properties[i].content.rendered[this.properties[i].content.rendered.indexOf('€') - 7];
-          }
-
-          var valorEntero = valor7 + valor6 + valor5 + valor4 + valor3 + valor2 + valor1;
-
-          var valorFormat = valorEntero.replace('.', '');
-          valorFormat = valorFormat.replace('undefined', '');
-          valorFormat = valorFormat.replace(' ', '');
-          valorFormat = valorFormat.replace(' ', '');
-          valorFormat = valorFormat.replace(' ', '');
-          valorFormat = valorFormat.replace(' ', '');
-          valorFormat = valorFormat.replace(' ', '');
-
-          this.properties[i].precio = parseInt(valorFormat);
-        }
-
+// tslint:disable-next-line: forin
         for (let j in this.properties[i].region) {
           this.properties[i].regionStr.push(this.getRegion(this.properties[i].region[j]));
         }
 
         this.properties[i].propertyFeatureStr = [];
 
-        for (let j in this.properties[i].property_feature) {
+// tslint:disable-next-line: forin
+        for (const j in this.properties[i].property_feature) {
           this.properties[i].propertyFeatureStr.push(this.getFeatures(this.properties[i].property_feature[j]));
         }
       }
@@ -241,17 +220,14 @@ export class Tab1Page implements OnInit{
   public getItems(ev: any) {
     const val = ev.target.value;
 
-    if(val === '') {
+    if (val === '') {
       this.traerPisos();
     }
 
-    if (val && val.trim() != '') {
+    if (val && val.trim() !== '') {
       this.properties = this.properties.filter((item) => {
         return (item.title.rendered.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
+      });
     }
   }
-
-
-
 }
