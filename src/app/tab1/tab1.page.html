@@ -12,7 +12,7 @@
     <ion-item class="busqueda">
       <ion-label>Zona</ion-label>
       <ion-select value="Inserte zona" id="termino" [(ngModel)]="termino" okText="Seleccionar" cancelText="Cancelar">
-        <ion-select-option *ngFor="let region of this.regiones" value="{{region.name}}">{{region.name}}</ion-select-option>
+        <ion-select-option *ngFor="let region of this.regiones" value="{{region.id}}">{{region.name}}</ion-select-option>
       </ion-select>
     </ion-item>
   
@@ -63,7 +63,7 @@
 
 <ion-content class="fondo" *ngIf="this.busquedaRealizada && !this.detalles" >
   <ion-searchbar (ionInput)="getItems($event)" placeholder="Buscar por nombre"></ion-searchbar>
-  <ion-button (click)="volver()" color="secondary">Volver</ion-button>
+  <ion-button (click)="volver()" color="medium">Volver</ion-button>
   <ion-list lines="none">
     <ion-item *ngFor="let property of this.properties" >
       <ion-card>
@@ -86,7 +86,7 @@
         </ion-card-content>
         <ion-row>
           <ion-col>
-            <ion-button (click)="verDetalles(property)">
+            <ion-button (click)="verDetalles(property)" color="medium">
               Ver ficha completa
             </ion-button>
           </ion-col>
@@ -103,7 +103,7 @@
 </ion-content>
 
 <ion-content class="fondo" *ngIf="this.detalles">
-  <ion-button (click)="volverABusqueda()" color="secondary">Volver</ion-button>
+  <ion-button (click)="volverABusqueda()" color="medium">Volver</ion-button>
   <img src="{{pisoSeleccionado.foto}}" alt="">
   
   <ion-card>

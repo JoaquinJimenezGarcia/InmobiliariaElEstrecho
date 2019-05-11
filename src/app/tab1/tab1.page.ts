@@ -20,6 +20,7 @@ export class Tab1Page implements OnInit{
   public precio_maximo: number = 0;
   public detalles: boolean = false;
   public pisoSeleccionado: Property = null;
+  public region: number = 29;
 
   constructor(private http: Http) {
     this.traerRegiones();
@@ -27,7 +28,8 @@ export class Tab1Page implements OnInit{
 
   ngOnInit(): void {
     if (this.busquedaRealizada) {
-      this.traerPisos();
+      this.region = Number(this.termino);
+      this.traerPisos(this.region);
     }
   }
 
@@ -63,14 +65,14 @@ export class Tab1Page implements OnInit{
     console.log(this.pisoSeleccionado);
   }
 
-  public traerPisos() {
+  public traerPisos(region: number) {
     let properties;
     console.log('Precio mínimo: ');
     console.log(this.precio_minimo);
     console.log('Precio máximo: ');
     console.log(this.precio_maximo);
 
-    this.http.get(this.url + 'property?per_page=100').pipe(map(res => res.json())).subscribe(data => {
+    this.http.get(this.url + 'property?per_page=100&region='+region).pipe(map(res => res.json())).subscribe(data => {
       properties = data;
 
       for (let i = 0; i < properties.length; i++) {
@@ -221,7 +223,7 @@ export class Tab1Page implements OnInit{
     const val = ev.target.value;
 
     if (val === '') {
-      this.traerPisos();
+      this.traerPisos(this.region);
     }
 
     if (val && val.trim() !== '') {

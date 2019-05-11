@@ -3,8 +3,8 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 
 @Component({
   selector: 'app-tab2',
-  templateUrl: '../tab1/tab1.page.html',
-  styleUrls: ['../tab1/tab1.page.scss']
+  templateUrl: './tab2.page.html',
+  styleUrls: ['./tab2.page.scss']
 })
 export class Tab2Page implements OnInit {
   constructor(private callNumber: CallNumber) {}
