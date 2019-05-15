@@ -90,12 +90,6 @@ export class Tab1Page implements OnInit{
         } else if (this.precio_minimo <= 0 || this.precio_minimo === undefined) {
           this.precio_minimo = 0;
         }
-
-        if ((properties[i].precio > this.precio_minimo) && (properties[i].precio < this.precio_maximo)){
-
-        } else {
-          properties.splice(i, 1);
-        }
       }
 
       this.properties = properties;
@@ -120,9 +114,13 @@ export class Tab1Page implements OnInit{
         }
 
         if (this.opcion_busqueda === 'todos') {
-          this.propiedadesMostrar.push(this.properties[i]);
+          if((Number(this.properties[i].precio_propiedad) < this.precio_maximo) && (Number(this.properties[i].precio_propiedad) > this.precio_minimo)) {
+            this.propiedadesMostrar.push(this.properties[i]);
+          }
         } else if (this.properties[i].tipo_propiedad === this.opcion_busqueda) {
-          this.propiedadesMostrar.push(this.properties[i]);
+          if((Number(this.properties[i].precio_propiedad) < this.precio_maximo) && (Number(this.properties[i].precio_propiedad) > this.precio_minimo)) {
+            this.propiedadesMostrar.push(this.properties[i]);
+          }
         }
       }
 
