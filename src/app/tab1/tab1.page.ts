@@ -67,7 +67,7 @@ export class Tab1Page implements OnInit{
     console.log(this.pisoSeleccionado);
   }
 
-  public traerPisos(region: number) {
+  public traerPisos(region) {
     let properties;
     console.log('Precio mínimo: ');
     console.log(this.precio_minimo);
@@ -76,6 +76,10 @@ export class Tab1Page implements OnInit{
 
     this.properties = [];
     this.propiedadesMostrar = [];
+
+    if (region === 0) {
+      region = 29;
+    }
 
     this.http.get(this.url + 'property?per_page=100&region='+region).pipe(map(res => res.json())).subscribe(data => {
       properties = data;
