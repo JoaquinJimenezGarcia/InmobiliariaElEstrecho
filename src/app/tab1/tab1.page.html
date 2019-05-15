@@ -8,64 +8,88 @@
 
 <ion-content *ngIf="!this.busquedaRealizada">
   <div class="fondo">
-      <img src="assets/solologo.png">
+    <img src="assets/solologo.png">
     <ion-item class="busqueda">
       <ion-label>Zona</ion-label>
       <ion-select value="Inserte zona" id="termino" [(ngModel)]="termino" okText="Seleccionar" cancelText="Cancelar">
-        <ion-select-option *ngFor="let region of this.regiones" value="{{region.id}}">{{region.name}}</ion-select-option>
+        <ion-select-option *ngFor="let region of this.regiones" value="{{region.id}}">{{region.name}}
+        </ion-select-option>
       </ion-select>
     </ion-item>
-  
+
     <br>
-  
-    <ion-item class="precio_minimo">
-      <ion-label>Mín. Precio</ion-label>
-      <ion-select value="EUR" id="precio_minimo" [(ngModel)]="precio_minimo" okText="Seleccionar" cancelText="Cancelar">
-        <ion-select-option value="undefined">Sin mínimo</ion-select-option>
-        <ion-select-option value="1000">1.000 €</ion-select-option>
-        <ion-select-option value="10000">10.000 €</ion-select-option>
-        <ion-select-option value="20000">20.000 €</ion-select-option>
-        <ion-select-option value="30000">30.000 €</ion-select-option>
-        <ion-select-option value="40000">40.000 €</ion-select-option>
-        <ion-select-option value="50000">50.000 €</ion-select-option>
-        <ion-select-option value="60000">60.000 €</ion-select-option>
-        <ion-select-option value="70000">70.000 €</ion-select-option>
-        <ion-select-option value="80000">80.000 €</ion-select-option>
-        <ion-select-option value="90000">90.000 €</ion-select-option>
-        <ion-select-option value="100000">100.000 €</ion-select-option>
-      </ion-select>
-    </ion-item>
-  
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item class="precio_minimo">
+            <ion-label>Mín. Precio</ion-label>
+            <ion-select value="EUR" id="precio_minimo" [(ngModel)]="precio_minimo" okText="Seleccionar"
+              cancelText="Cancelar">
+              <ion-select-option value="undefined">Sin mínimo</ion-select-option>
+              <ion-select-option value="1000">1.000 €</ion-select-option>
+              <ion-select-option value="10000">10.000 €</ion-select-option>
+              <ion-select-option value="20000">20.000 €</ion-select-option>
+              <ion-select-option value="30000">30.000 €</ion-select-option>
+              <ion-select-option value="40000">40.000 €</ion-select-option>
+              <ion-select-option value="50000">50.000 €</ion-select-option>
+              <ion-select-option value="60000">60.000 €</ion-select-option>
+              <ion-select-option value="70000">70.000 €</ion-select-option>
+              <ion-select-option value="80000">80.000 €</ion-select-option>
+              <ion-select-option value="90000">90.000 €</ion-select-option>
+              <ion-select-option value="100000">100.000 €</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item class="precio_maximo">
+            <ion-label>Máx. Precio</ion-label>
+            <ion-select value="EUR" id="precio_maximo" [(ngModel)]="precio_maximo" okText="Seleccionar"
+              cancelText="Cancelar">
+              <ion-select-option value="undefined">Sin máximo</ion-select-option>
+              <ion-select-option value="1000">1.000 €</ion-select-option>
+              <ion-select-option value="10000">10.000 €</ion-select-option>
+              <ion-select-option value="20000">20.000 €</ion-select-option>
+              <ion-select-option value="30000">30.000 €</ion-select-option>
+              <ion-select-option value="40000">40.000 €</ion-select-option>
+              <ion-select-option value="50000">50.000 €</ion-select-option>
+              <ion-select-option value="60000">60.000 €</ion-select-option>
+              <ion-select-option value="70000">70.000 €</ion-select-option>
+              <ion-select-option value="80000">80.000 €</ion-select-option>
+              <ion-select-option value="90000">90.000 €</ion-select-option>
+              <ion-select-option value="100000">100.000 €</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+
+
+
     <br>
-  
+
     <ion-item class="precio_maximo">
-      <ion-label>Máx. Precio</ion-label>
-      <ion-select value="EUR" id="precio_maximo" [(ngModel)]="precio_maximo" okText="Seleccionar" cancelText="Cancelar">
-        <ion-select-option value="undefined">Sin máximo</ion-select-option>
-        <ion-select-option value="1000">1.000 €</ion-select-option>
-        <ion-select-option value="10000">10.000 €</ion-select-option>
-        <ion-select-option value="20000">20.000 €</ion-select-option>
-        <ion-select-option value="30000">30.000 €</ion-select-option>
-        <ion-select-option value="40000">40.000 €</ion-select-option>
-        <ion-select-option value="50000">50.000 €</ion-select-option>
-        <ion-select-option value="60000">60.000 €</ion-select-option>
-        <ion-select-option value="70000">70.000 €</ion-select-option>
-        <ion-select-option value="80000">80.000 €</ion-select-option>
-        <ion-select-option value="90000">90.000 €</ion-select-option>
-        <ion-select-option value="100000">100.000 €</ion-select-option>
+      <ion-label>Opción</ion-label>
+      <ion-select value="opcion_busqueda" id="opcion_busqueda" [(ngModel)]="opcion_busqueda" okText="Seleccionar"
+        cancelText="Cancelar">
+        <ion-select-option value="todos">Todos</ion-select-option>
+        <ion-select-option value="rent">Alquiler</ion-select-option>
+        <ion-select-option value="sale">Venta</ion-select-option>
       </ion-select>
     </ion-item>
-  
+
     <ion-button (click)="buscar()" color="medium">Buscar</ion-button>
   </div>
   <!---->
 </ion-content>
 
-<ion-content class="fondo" *ngIf="this.busquedaRealizada && !this.detalles" >
+<ion-content class="fondo" *ngIf="this.busquedaRealizada && !this.detalles">
   <ion-searchbar (ionInput)="getItems($event)" placeholder="Buscar por nombre"></ion-searchbar>
   <ion-button (click)="volver()" color="medium">Volver</ion-button>
   <ion-list lines="none">
-    <ion-item *ngFor="let property of this.properties" >
+    <ion-item *ngFor="let property of this.propiedadesMostrar">
       <ion-card>
         <img src="{{property.foto}}" />
         <ion-card-content>
@@ -93,7 +117,7 @@
         </ion-row>
       </ion-card>
     </ion-item>
-    <ion-item *ngIf="propertiesByRegion(this.termino, properties).length === 0" color="medium">
+    <ion-item *ngIf="this.propiedadesMostrar.length === 0" color="medium">
       <ion-list-header>
         <ion-label>Sin pisos disponibles para esta zona</ion-label>
       </ion-list-header>
@@ -105,7 +129,7 @@
 <ion-content class="fondo" *ngIf="this.detalles">
   <ion-button (click)="volverABusqueda()" color="medium">Volver</ion-button>
   <img src="{{pisoSeleccionado.foto}}" alt="">
-  
+
   <ion-card>
     <ion-card-header>
       <ion-card-title>{{pisoSeleccionado.title.rendered}}</ion-card-title>

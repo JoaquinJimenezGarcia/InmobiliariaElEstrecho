@@ -32,6 +32,7 @@ export class Property {
         public foto: string,
         public fotos: string[],
         public precio_propiedad: string,
-        public definicion: string
+        public definicion: string,
+        public tipo_propiedad: string
     ){}
 }

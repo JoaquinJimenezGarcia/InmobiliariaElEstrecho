@@ -14,6 +14,7 @@ export class Tab1Page implements OnInit{
   public busquedaRealizada: boolean = false;
   private url: string = 'http://inmobiliariaelestrecho.com/wp-json/wp/v2/';
   public properties: Property[];
+  public propiedadesMostrar: Property[] = [];
   public regiones: Region[];
   public termino: string = '';
   public precio_minimo: number = 0;
@@ -21,6 +22,7 @@ export class Tab1Page implements OnInit{
   public detalles: boolean = false;
   public pisoSeleccionado: Property = null;
   public region: number = 29;
+  public opcion_busqueda: string = 'todos';
 
   constructor(private http: Http) {
     this.traerRegiones();
@@ -72,6 +74,9 @@ export class Tab1Page implements OnInit{
     console.log('Precio máximo: ');
     console.log(this.precio_maximo);
 
+    this.properties = [];
+    this.propiedadesMostrar = [];
+
     this.http.get(this.url + 'property?per_page=100&region='+region).pipe(map(res => res.json())).subscribe(data => {
       properties = data;
 
@@ -90,16 +95,10 @@ export class Tab1Page implements OnInit{
       }
 
       this.properties = properties;
+      console.log(this.opcion_busqueda);
 
       for (let i = 0; i < this.properties.length; i++) {
         const fotos = Object.values(properties[i].imagenes_galeria);
-        this.properties[i].definicion = this.properties[i].content.rendered.replace(/<[^>]*>/g, '');
-        
-        //this.properties[i].fotos = Array(fotos);
-
-        /*for (let j = 0; j < fotos.length; j++) {
-          this.properties[i].fotos[j] = String(fotos[j]);
-        }*/
 
         this.properties[i].foto = String(fotos[0]);
         this.properties[i].regionStr = [];
@@ -115,7 +114,15 @@ export class Tab1Page implements OnInit{
         for (const j in this.properties[i].property_feature) {
           this.properties[i].propertyFeatureStr.push(this.getFeatures(this.properties[i].property_feature[j]));
         }
+
+        if (this.opcion_busqueda === 'todos') {
+          this.propiedadesMostrar.push(this.properties[i]);
+        } else if (this.properties[i].tipo_propiedad === this.opcion_busqueda) {
+          this.propiedadesMostrar.push(this.properties[i]);
+        }
       }
+
+      console.log(this.propiedadesMostrar);
     });
   }
 
