@@ -99,6 +99,7 @@ export class Tab1Page implements OnInit{
         const fotos = Object.values(properties[i].imagenes_galeria);
 
         this.properties[i].foto = String(fotos[0]);
+        this.properties[i].fotos = fotos;
         this.properties[i].regionStr = [];
 
 // tslint:disable-next-line: forin
