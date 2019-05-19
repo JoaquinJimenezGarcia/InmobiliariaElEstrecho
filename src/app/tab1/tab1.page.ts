@@ -63,16 +63,10 @@ export class Tab1Page implements OnInit{
   public verDetalles(property: Property) {
     this.detalles = true;
     this.pisoSeleccionado = property;
-
-    console.log(this.pisoSeleccionado);
   }
 
   public traerPisos(region) {
     let properties;
-    console.log('Precio mínimo: ');
-    console.log(this.precio_minimo);
-    console.log('Precio máximo: ');
-    console.log(this.precio_maximo);
 
     this.properties = [];
     this.propiedadesMostrar = [];
@@ -93,7 +87,6 @@ export class Tab1Page implements OnInit{
       }
 
       this.properties = properties;
-      console.log(this.opcion_busqueda);
 
       for (let i = 0; i < this.properties.length; i++) {
         const fotos = Object.values(properties[i].imagenes_galeria);
@@ -124,8 +117,6 @@ export class Tab1Page implements OnInit{
           }
         }
       }
-
-      console.log(this.propiedadesMostrar);
     });
   }
 

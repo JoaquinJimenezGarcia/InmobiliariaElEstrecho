@@ -149,11 +149,8 @@ export class TodosPage implements OnInit {
 
   public meGusta(id: number) {
     if(localStorage.getItem('favoritos') == null || localStorage.getItem('favoritos') == 'undefined') {
-      console.log('No existe');
       localStorage.setItem('favoritos', JSON.stringify(this.favoritos));
     } else {
-      console.log('Existe');
-      console.log(this.favoritos);
       for (let i = 0; i < localStorage.getItem('favoritos').length; i++) {
         this.favoritos[i] = localStorage.getItem('favoritos')[i];
       }
@@ -164,8 +161,6 @@ export class TodosPage implements OnInit {
 
     this.favoritos.push(id.toString());
       localStorage.setItem('favoritos', JSON.stringify(this.favoritos));
-
-    console.log(localStorage.getItem('favoritos'));
   }
 
 }
