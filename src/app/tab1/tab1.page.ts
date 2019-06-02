@@ -123,6 +123,26 @@ export class Tab1Page implements OnInit{
   public traerRegiones() {
     this.http.get(this.url + 'region?per_page=100').pipe(map(res => res.json())).subscribe(data => {
       this.regiones = data;
+      console.log(this.regiones);
+
+      for (let i = 0; i < this.regiones.length; i++) {
+        switch (this.regiones[i].name) {
+          case 'Algeciras':
+            this.regiones[i].name = 'ALGECIRAS';
+            break;
+          case 'La Linea':
+            this.regiones[i].name = 'LA LÍNEA';
+            break;
+          case 'Los Barrios':
+            this.regiones[i].name = 'LOS BARRIOS';
+            break;
+          case 'San Roque':
+            this.regiones[i].name = 'SAN ROQUE';
+            break;
+          default:
+            break;
+        }
+      }
     });
   }
 
@@ -169,6 +189,8 @@ export class Tab1Page implements OnInit{
       case 59:
         return 'Virgen de la Palma';
       default:
+        // Recordar que si aparece este es porque es una opción nueva y no está en
+        // la lista anterior.
         return 'Otro';
     }
 
@@ -211,6 +233,8 @@ export class Tab1Page implements OnInit{
       case 50:
         return 'Trastero';
       default:
+        // Recordar que si aparece en blanco es porque es una opción nueva y no está en
+        // la lista anterior.
         return '';
     }
   }
