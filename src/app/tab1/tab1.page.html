@@ -12,8 +12,29 @@
     <ion-item class="busqueda">
       <ion-label>Zona</ion-label>
       <ion-select value="Inserte zona" id="termino" [(ngModel)]="termino" okText="Seleccionar" cancelText="Cancelar">
-        <ion-select-option *ngFor="let region of this.regiones" value="{{region.id}}">{{region.name}}
-        </ion-select-option>
+        <!--<ion-select-option *ngFor="let region of this.regiones" value="{{region.id}}">{{region.name}}
+        </ion-select-option>-->
+        <ion-select-option value="32">ALGECIRAS</ion-select-option>
+        <ion-select-option value="29">Centro</ion-select-option>
+        <ion-select-option value="58">Colonia San Miguel</ion-select-option>
+        <ion-select-option value="44">El Cobre</ion-select-option>
+        <ion-select-option value="40">El Rinconcillo</ion-select-option>
+        <ion-select-option value="55">Ermita</ion-select-option>
+        <ion-select-option value="41">La Granja</ion-select-option>
+        <ion-select-option value="46">Las Colinas - Pastores</ion-select-option>
+        <ion-select-option value="47">Menacha</ion-select-option>
+        <ion-select-option value="45">Pelayo</ion-select-option>
+        <ion-select-option value="42">Saladillo-Piñera</ion-select-option>
+        <ion-select-option value="43">San Bernabé</ion-select-option>
+        <ion-select-option value="39">San García-Getares</ion-select-option>
+        <ion-select-option value="30">San José Artesano</ion-select-option>
+        <ion-select-option value="56">Veradero</ion-select-option>
+        <ion-select-option value="59">Virgen de la Palma</ion-select-option>
+        <ion-select-option value="23">LA LÍNEA</ion-select-option>
+        <ion-select-option value="57">Santa Margarita</ion-select-option>
+        <ion-select-option value="25">LOS BARRIOS</ion-select-option>
+        <ion-select-option value="31">SAN ROQUE</ion-select-option>
+        <ion-select-option value="28">TARIFA</ion-select-option>
       </ion-select>
     </ion-item>
 
