@@ -84,4 +84,5 @@
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <plugin name="mx.ferreyra.callnumber" spec="~0.0.2" />
     <plugin name="onesignal-cordova-plugin" spec="2.4.6" />
+    <engine name="android" spec="8.0.0" />
 </widget>
